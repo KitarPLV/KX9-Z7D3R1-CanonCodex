@@ -2,10 +2,9 @@ name: CanonCodex Autonomous Cycle
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   schedule:
-    - cron: "*/15 * * * *"  # every 15 minutes UTC
+    - cron: "*/15 * * * *"
   workflow_dispatch:
 
 jobs:
@@ -26,5 +25,5 @@ jobs:
 
       - name: Run CanonCodex Agent
         run: |
-          export PYTHONPATH="${{ github.workspace }}"
+          export PYTHONPATH="${GITHUB_WORKSPACE}"
           python canoncodex/agent/main_loop.py
