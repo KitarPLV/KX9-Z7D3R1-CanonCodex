@@ -1,3 +1,0 @@
-TASK_TYPE: write
-FILE: webhook_server.py
-DESC: Document webhook entry logic

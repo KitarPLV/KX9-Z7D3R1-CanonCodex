@@ -1,0 +1,14 @@
+{
+  "tasks": [
+    {
+      "name": "sync_agent",
+      "path": "core/sync_agent.py",
+      "tags": ["sync", "core"]
+    },
+    {
+      "name": "convert_codex",
+      "path": "ops/convert_codex.py",
+      "tags": ["convert"]
+    }
+  ]
+}

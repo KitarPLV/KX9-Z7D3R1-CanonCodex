@@ -1,3 +1,0 @@
-TASK_TYPE: write
-FILE: discord_bot_server.py
-DESC: Summarize Discord event interface
