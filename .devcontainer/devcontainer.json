@@ -1,0 +1,10 @@
+{
+  "name": "CanonCodex Dev",
+  "postCreateCommand": "python bootstrap.py",
+  "customizations": {
+    "vscode": {
+      "settings": {},
+      "extensions": []
+    }
+  }
+}
