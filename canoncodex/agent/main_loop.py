@@ -1,31 +1,22 @@
 import os
-import time
 from canoncodex.handlers import write
 
 TASK_DIR = "tasks"
-PROCESSED_DIR = os.path.join(TASK_DIR, "_done")
-os.makedirs(PROCESSED_DIR, exist_ok=True)
+DONE_DIR = os.path.join(TASK_DIR, "_done")
+OUTPUT_DIR = "outputs"
 
-def dispatch(task_path):
-    with open(task_path, "r") as f:
-        content = f.read()
-    if "TASK_TYPE: write" in content:
-        write.handle(content)
-    else:
-        print(f"No handler for: {task_path}")
-
-def watch():
-    print("🔁 Watching for tasks...")
-    while True:
-        tasks = [f for f in os.listdir(TASK_DIR) if f.endswith(".txt") and f != "_done"]
-        for task in tasks:
-            full_path = os.path.join(TASK_DIR, task)
-            try:
-                dispatch(full_path)
-                os.rename(full_path, os.path.join(PROCESSED_DIR, task))
-            except Exception as e:
-                print(f"❌ Error processing {task}: {e}")
-        time.sleep(2)
+def process_tasks():
+    os.makedirs(DONE_DIR, exist_ok=True)
+    task_files = [f for f in os.listdir(TASK_DIR) if f.endswith(".txt")]
+    if not task_files:
+        print("🕊️ No tasks found. Exiting.")
+        return
+    for file in task_files:
+        task_path = os.path.join(TASK_DIR, file)
+        print(f"🛠️  Processing: {file}")
+        write.dispatch(task_path)
+        os.rename(task_path, os.path.join(DONE_DIR, file))
+    print("✅ Task processing complete.")
 
 if __name__ == "__main__":
-    watch()
+    process_tasks()
