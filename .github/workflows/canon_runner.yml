@@ -5,13 +5,12 @@ on:
     branches:
       - main
   schedule:
-    - cron: "*/15 * * * *"  # every 15 minutes UTC
+    - cron: "*/15 * * * *"  # Every 15 minutes
   workflow_dispatch:
 
 jobs:
   canoncodex-autorun:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -23,10 +22,12 @@ jobs:
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
+          pip install --upgrade pip
           pip install -r requirements.txt
 
       - name: Run CanonCodex Agent
+        env:
+          PYTHONPATH: .
         run: |
-          export PYTHONPATH=$(pwd)
+          echo "💡 Launching CanonCodex autonomous agent..."
           python canoncodex/agent/main_loop.py
