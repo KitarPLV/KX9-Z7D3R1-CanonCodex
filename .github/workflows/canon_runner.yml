@@ -1,11 +1,8 @@
-name: CanonCodex Autonomous Cycle
+name: canon_runner
 
 on:
   push:
-    branches:
-      - main
-  schedule:
-    - cron: "*/15 * * * *"  # every 15 minutes UTC
+    branches: [main]
   workflow_dispatch:
 
 jobs:

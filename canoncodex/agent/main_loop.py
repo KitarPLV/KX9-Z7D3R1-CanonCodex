@@ -1,13 +1,12 @@
 import os
+import traceback
+
 from canoncodex.router import route_task
 from canoncodex.telemetry import log_event
 from canoncodex.sync.github_ingest import fetch_task
 from canoncodex.integrations.prune_outputs import prune_old_outputs
 from canoncodex.integrations.discord_notify import send_discord_alert
-# Optional logic layer
-# from canoncodex.handlers.interpreter import infer_and_dispatch
 
-# Folder setup
 TASK_DIR = "tasks"
 DONE_DIR = os.path.join(TASK_DIR, "_done")
 OUTPUT_DIR = "outputs"
@@ -25,7 +24,7 @@ def process_tasks():
         print(f"⚠️ Failed to fetch tasks/_done ({e})")
 
     print("🔍 Scanning for tasks...")
-    task_files = [f for f in os.listdir(TASK_DIR) if f.endswith(".txt")]
+    task_files = [f for f in os.listdir(TASK_DIR) if f.endswith(".txt") and f != "_done"]
 
     if not task_files:
         print("📭 No tasks found. Exiting.")
@@ -33,22 +32,18 @@ def process_tasks():
 
     for file in task_files:
         task_path = os.path.join(TASK_DIR, file)
-        print(f"📂 Processing: {file}")
+        print(f"🛠️  Processing: {file}")
+
         try:
-            # 🔁 CanonCodex router
             route_task(task_path)
-
-            # 🧠 Optional inference logic
-            # infer_and_dispatch(task_path)
-
-            print(f"✅ Task processed: {file}")
-            log_event(f"✅ Task processed: {file}")
+            log_event(f"✅ Task completed: {file}")
             os.rename(task_path, os.path.join(DONE_DIR, file))
         except Exception as e:
-            print(f"❌ Error handling {file}: {e}")
+            print(f"❌ Error: {e}")
+            traceback.print_exc()
             log_event(f"❌ Task failed: {file}")
 
-    print("🏁 All task processing complete.")
+    print("✅ CanonCodex loop complete.")
 
 if __name__ == "__main__":
     process_tasks()
