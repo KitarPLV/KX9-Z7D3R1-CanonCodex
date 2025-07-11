@@ -2,10 +2,10 @@ name: CanonCodex Autonomous Cycle
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   schedule:
-    - cron: "*/15 * * * *"  # every 15 minutes
+    - cron: "*/15 * * * *"  # every 15 minutes UTC
+  workflow_dispatch:
 
 jobs:
   canoncodex-autorun:
@@ -21,7 +21,26 @@ jobs:
           python-version: 3.11
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: pip install -r requirements.txt black isort flake8
+
+      - name: Lint, Format & Auto-fix
+        run: |
+          echo "🔍 Running black, isort, flake8..."
+          black canoncodex/
+          isort canoncodex/
+          flake8 canoncodex/ || true
+
+      - name: Commit formatting fixes (if any)
+        run: |
+          git config user.name "canonbot"
+          git config user.email "bot@canoncodex.local"
+          git add canoncodex/
+          if ! git diff --cached --quiet; then
+            git commit -m "🤖 Auto-format: black, isort, flake8 compliance"
+            git push
+          else
+            echo "✅ No changes to commit."
+          fi
 
       - name: Run CanonCodex Agent
         run: |

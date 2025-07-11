@@ -11,6 +11,7 @@ TASK_DIR = "tasks"
 DONE_DIR = os.path.join(TASK_DIR, "_done")
 OUTPUT_DIR = "outputs"
 
+
 def process_tasks():
     os.makedirs(DONE_DIR, exist_ok=True)
     os.makedirs(OUTPUT_DIR, exist_ok=True)
@@ -24,7 +25,9 @@ def process_tasks():
         print(f"⚠️ Failed to fetch tasks/_done ({e})")
 
     print("🔍 Scanning for tasks...")
-    task_files = [f for f in os.listdir(TASK_DIR) if f.endswith(".txt") and f != "_done"]
+    task_files = [
+        f for f in os.listdir(TASK_DIR) if f.endswith(".txt") and f != "_done"
+    ]
 
     if not task_files:
         print("📭 No tasks found. Exiting.")
@@ -44,6 +47,7 @@ def process_tasks():
             log_event(f"❌ Task failed: {file}")
 
     print("✅ CanonCodex loop complete.")
+
 
 if __name__ == "__main__":
     process_tasks()

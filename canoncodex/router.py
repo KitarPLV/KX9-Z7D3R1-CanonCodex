@@ -9,6 +9,7 @@ def route_task(task_path):
             break
     if task_type == "write":
         from canoncodex.handlers.write import dispatch
+
         dispatch(task_path)
     else:
         raise ValueError(f"Unsupported TASK_TYPE: {task_type}")
