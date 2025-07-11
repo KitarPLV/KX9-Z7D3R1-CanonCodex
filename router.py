@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from ops import TASK_REGISTRY
 
 app = FastAPI()
@@ -18,3 +18,10 @@ def run_task(task_name: str):
         task()
         return {"status": "success", "task": task_name}
     return {"status": "error", "reason": "task not found"}
+
+@app.post("/webhook")
+async def github_webhook(req: Request):
+    payload = await req.json()
+    print("🔔 GitHub Webhook Triggered")
+    print(payload)
+    return {"status": "received", "payload": payload}
