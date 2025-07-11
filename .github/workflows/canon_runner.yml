@@ -2,14 +2,15 @@ name: CanonCodex Autonomous Cycle
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
   schedule:
-    - cron: '*/15 * * * *'  # every 15 minutes UTC
-  workflow_dispatch:
+    - cron: "*/15 * * * *" # every 15 minutes UTC
 
 jobs:
   canoncodex-autorun:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -24,4 +25,5 @@ jobs:
 
       - name: Run CanonCodex Agent
         run: |
-          PYTHONPATH=$GITHUB_WORKSPACE python3 canoncodex/agent/main_loop.py
+          export PYTHONPATH="${{ github.workspace }}"
+          python canoncodex/agent/main_loop.py
