@@ -1,10 +1,7 @@
 name: Trigger Canon Task Daemon
 
 on:
-  workflow_dispatch:     # Manually triggered
-  push:                  # Auto-triggered on push to main
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   trigger-daemon:
