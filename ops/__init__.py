@@ -9,3 +9,6 @@ def register(name):
 # Auto-import task modules to register them
 from core.sync_agent import sync_agent
 from ops.convert_codex import convert_codex
+
+# ✅ Manually register tasks
+TASK_REGISTRY["sync_agent"] = sync_agent
