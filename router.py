@@ -27,7 +27,11 @@ def run_task(task_name: str):
 
 @app.post("/webhook")
 async def github_webhook(req: Request):
-    payload = await req.json()
+    try:
+        payload = await req.json()
+    except:
+        payload = {"note": "No payload sent or could not parse JSON."}
+
     timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
     log_dir = "canoncodex_inbox/logs"
     os.makedirs(log_dir, exist_ok=True)
@@ -36,7 +40,7 @@ async def github_webhook(req: Request):
     with open(log_path, "w") as f:
         json.dump(payload, f, indent=2)
 
-    # 📂 Run all pending .task.json files
+    # 📂 Scan and run all pending .task.json files
     task_folder = "canoncodex_inbox/tasks"
     executed = []
 
