@@ -9,6 +9,16 @@ GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 GITHUB_REPO = os.getenv("GITHUB_REPO")
 BRANCH = os.getenv("BRANCH", "main")
 
+# Validate required environment variables early so the server fails fast with a
+# clear error message rather than during the first request.
+missing_env = [name for name, val in {
+    "GITHUB_TOKEN": GITHUB_TOKEN,
+    "GITHUB_REPO": GITHUB_REPO,
+}.items() if not val]
+if missing_env:
+    raise RuntimeError(
+        f"Missing required environment variables: {', '.join(missing_env)}")
+
 # Initialize GitHub API client
 g = Github(GITHUB_TOKEN)
 repo = g.get_repo(GITHUB_REPO)
