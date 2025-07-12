@@ -18,7 +18,10 @@ def list_tasks():
 def run_task(task_name: str):
     task = TASK_REGISTRY.get(task_name)
     if task:
-        task()
+        try:
+            task()
+        except Exception as e:
+            return {"status": "error", "reason": str(e)}
         return {"status": "success", "task": task_name}
     return {"status": "error", "reason": "task not found"}
 
@@ -33,11 +36,26 @@ async def github_webhook(req: Request):
     with open(log_path, "w") as f:
         json.dump(payload, f, indent=2)
 
-    # Optional: auto-trigger a task based on branch
-    ref = payload.get("ref", "")
-    if "main" in ref or "canon/auto" in ref:
-        task = TASK_REGISTRY.get("sync_agent")
-        if task:
-            task()
+    # 📂 Run all pending .task.json files
+    task_folder = "canoncodex_inbox/tasks"
+    executed = []
 
-    return {"status": "received", "logged": log_path}
+    for fname in os.listdir(task_folder):
+        if fname.endswith(".task.json"):
+            full_path = os.path.join(task_folder, fname)
+            with open(full_path, "r") as tf:
+                task_json = json.load(tf)
+                task_type = task_json.get("task")
+                task_fn = TASK_REGISTRY.get(task_type)
+                if task_fn:
+                    try:
+                        task_fn(task_json)
+                    except TypeError:
+                        task_fn()
+                    executed.append(fname)
+
+    return {
+        "status": "received",
+        "logged": log_path,
+        "executed_tasks": executed
+    }
