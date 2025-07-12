@@ -1,0 +1,20 @@
+name: Auto Sync Snapshot
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+jobs:
+  sync-snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+      - name: Run sync and snapshot
+        run: |
+          python cli.py sync_agent --write-to canoncodex_inbox/output/
+          python commit_snapshot.py
