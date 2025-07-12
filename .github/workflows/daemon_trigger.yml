@@ -1,14 +1,22 @@
 name: Trigger Canon Task Daemon
 
 on:
-  push:
+  workflow_dispatch:     # Manually triggered
+  push:                  # Auto-triggered on push to main
     branches:
-      - canon/auto
+      - main
 
 jobs:
-  notify:
+  trigger-daemon:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger Render Daemon Endpoint
-        run: |
-          curl -X POST https://kx9-z7d3r1-canoncodex.onrender.com/webhook             -H "Content-Type: application/json"             -d '{"event":"auto-task-queue","branch":"canon/auto"}'
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Run task daemon
+        run: python task_daemon.py
