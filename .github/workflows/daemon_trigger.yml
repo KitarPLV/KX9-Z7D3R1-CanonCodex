@@ -16,4 +16,4 @@ jobs:
           python-version: 3.11
 
       - name: Run task daemon
-        run: python task_daemon.py
+        run: python canoncodex_inbox/tasks/task_daemon.py
