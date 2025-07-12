@@ -1,0 +1,10 @@
+# Ignore Python cache and logs
+__pycache__/
+*.pyc
+*.pyo
+*.log
+.DS_Store
+
+# Ignore temporary sync or test files
+canoncodex_inbox/output/*.tmp
+canoncodex_inbox/logs/*.tmp
