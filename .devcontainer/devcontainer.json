@@ -1,9 +1,13 @@
 {
-  "name": "CanonCodex Dev",
-  "postCreateCommand": "python bootstrap.py",
+  "name": "CanonCodex Workspace",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  "features": {},
+  "postCreateCommand": "./CodexOps_QuickStart.sh",
   "customizations": {
     "vscode": {
-      "settings": {},
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      },
       "extensions": []
     }
   }
