@@ -1,4 +1,7 @@
 from fastapi import FastAPI, Request
+import os
+import json
+from datetime import datetime
 from ops import TASK_REGISTRY
 
 app = FastAPI()
@@ -22,6 +25,19 @@ def run_task(task_name: str):
 @app.post("/webhook")
 async def github_webhook(req: Request):
     payload = await req.json()
-    print("🔔 GitHub Webhook Triggered")
-    print(payload)
-    return {"status": "received", "payload": payload}
+    timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+    log_dir = "canoncodex_inbox/logs"
+    os.makedirs(log_dir, exist_ok=True)
+
+    log_path = os.path.join(log_dir, f"github_webhook_{timestamp}.json")
+    with open(log_path, "w") as f:
+        json.dump(payload, f, indent=2)
+
+    # Optional: auto-trigger a task based on branch
+    ref = payload.get("ref", "")
+    if "main" in ref or "canon/auto" in ref:
+        task = TASK_REGISTRY.get("sync_agent")
+        if task:
+            task()
+
+    return {"status": "received", "logged": log_path}
