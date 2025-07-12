@@ -7,13 +7,17 @@ jobs:
   trigger-daemon:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Setup Python
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: 3.11
+
+      - name: Verify daemon script exists
+        run: |
+          test -f canoncodex_inbox/tasks/task_daemon.py && echo "✅ Found task_daemon.py" || (echo "❌ task_daemon.py missing" && exit 1)
 
       - name: Run task daemon
         run: python canoncodex_inbox/tasks/task_daemon.py
