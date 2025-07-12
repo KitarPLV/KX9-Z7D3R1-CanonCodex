@@ -1,0 +1,14 @@
+name: Trigger Canon Task Daemon
+
+on:
+  push:
+    branches:
+      - canon/auto
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Render Daemon Endpoint
+        run: |
+          curl -X POST https://kx9-z7d3r1-canoncodex.onrender.com/webhook             -H "Content-Type: application/json"             -d '{"event":"auto-task-queue","branch":"canon/auto"}'

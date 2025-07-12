@@ -1,0 +1,17 @@
+name: Daily Cleanup
+
+on:
+  schedule:
+    - cron: '0 3 * * *'  # Daily at 3:00 AM UTC
+
+jobs:
+  clean:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+      - name: Run cleanup
+        run: python cleanup.py
