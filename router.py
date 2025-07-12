@@ -19,8 +19,10 @@ def run_task(task_name: str):
     task = TASK_REGISTRY.get(task_name)
     if task:
         try:
+            print(f"🧠 Running task manually: {task_name}")
             task()
         except Exception as e:
+            print(f"🔥 Manual task '{task_name}' failed:", str(e))
             return {"status": "error", "reason": str(e)}
         return {"status": "success", "task": task_name}
     return {"status": "error", "reason": "task not found"}
@@ -40,23 +42,37 @@ async def github_webhook(req: Request):
     with open(log_path, "w") as f:
         json.dump(payload, f, indent=2)
 
-    # 📂 Scan and run all pending .task.json files
+    print("📡 Webhook triggered.")
+    print("📦 Scanning tasks in: canoncodex_inbox/tasks")
+
     task_folder = "canoncodex_inbox/tasks"
     executed = []
 
     for fname in os.listdir(task_folder):
         if fname.endswith(".task.json"):
             full_path = os.path.join(task_folder, fname)
-            with open(full_path, "r") as tf:
-                task_json = json.load(tf)
-                task_type = task_json.get("task")
-                task_fn = TASK_REGISTRY.get(task_type)
-                if task_fn:
-                    try:
-                        task_fn(task_json)
-                    except TypeError:
-                        task_fn()
-                    executed.append(fname)
+            print(f"🔍 Found task file: {fname}")
+
+            try:
+                with open(full_path, "r") as tf:
+                    task_json = json.load(tf)
+                    task_type = task_json.get("task")
+                    print(f"🧩 Task type detected: {task_type}")
+
+                    task_fn = TASK_REGISTRY.get(task_type)
+                    if task_fn:
+                        print(f"🚀 Executing task: {task_type}")
+                        try:
+                            task_fn(task_json)
+                        except TypeError:
+                            print("⚙️ Retrying task with no arguments")
+                            task_fn()
+                        print(f"✅ Task completed: {fname}")
+                        executed.append(fname)
+                    else:
+                        print(f"❌ Task type '{task_type}' not registered.")
+            except Exception as e:
+                print(f"🔥 Error while processing task {fname}: {e}")
 
     return {
         "status": "received",
