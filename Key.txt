@@ -1,0 +1,109 @@
+=========
+
+> GitHub
+
+> GitHub token: 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
+
+> Webhooks:
+
+> Payload URL: https://kx9-z7d3r1-canoncodex.onrender.com
+> Content type: application/json
+> Secret: canon_webhook_secret
+
+> SSH key: git@github.com:KitarPLV/KX9-Z7D3R1-CanonCodex.git
+> Work fast with our official CLI: gh repo clone KitarPLV/KX9-Z7D3R1-CanonCodex
+> Clone using the web URL:  https://github.com/KitarPLV/KX9-Z7D3R1-CanonCodex.git
+> 
+
+> User permissions: Read access to Copilot Chat  |   Read and Write access to gists, keys, starring, and watching
+> Repository permissions:   Read access to codespaces metadata and metadata   |    Read and Write access to Dependabot alerts, actions, actions variables, administration, attestations api, code, codespaces, codespaces lifecycle admin, codespaces secrets, commit statuses, dependabot secrets, deployments, discussions, environments, issues, merge queues, pages, pull requests, repository advisories, repository custom properties, repository hooks, secret scanning alerts, secrets, security events, and workflows
+
+=========
+
+> Open AI
+
+> OPENAI_API_KEY=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
+
+> SECRET_KEY=b3b2aeb2d41d4e6ab2d6e54a302ef473
+
+> Tokens_Classic=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
+
+=======
+
+> Google
+
+> Google API credentials:
+
+> SERVICE_ACCOUNT_FILE = 'client_secret_489747188810-ufevmqe79k6eg6354j4a2n86ge9n04ji.apps.googleusercontent.com.json'
+> SCOPES = ['https://www.googleapis.com/auth/drive']
+
+======
+
+> Render
+
+> Static Outbound IP Addresses: 
+13.228.225.19
+18.142.128.26
+54.254.162.138
+
+> Render Web Service: https://kx9-z7d3r1-canoncodex.onrender.com
+> Repository: https://github.com/KitarPLV/KX9-Z7D3R1-CanonCodex
+> Start Command: uvicorn router:app --host 0.0.0.0 --port 10000
+> Deploy Hook: https://api.render.com/deploy/srv-d1o0e63e5dus73f16cj0?key=62M3Boy6CoI
+
+======
+
+> Discord
+
+> Username: KX9-Z7D3R1 Codex
+
+> Application ID: 1393076428857413642
+> Public Key: ea3bfc57fd288b4648e6d4b7dfcb372ae0288076723ced04f6ab60007fac341c
+> Install Link: https://discord.com/oauth2/authorize?client_id=1393076428857413642
+> Client Secret: E2q9taDwALS5sW-PH8rdGVJVMLp3X9bS
+
+
+
+======
+
+> telegram:
+
+> token to access HTTP API: 8006101796:AAFkrQN2XU7aB5j9cPSpXQUcTHILwmIOwFo
+>  Bot API: https://core.telegram.org/bots/api
+
+======
+
+> Environments > KitarPLV/KX9-Z7D3R1-CanonCodex
+
+> KitarPLV/KX9-Z7D3R1-CanonCodex
+
+-----
+
+Creator
+kitar.plv@gmail.com                                                                  |       Image     
+                                                                                     |       universal
+-----
+
+Description                                                                          |       Agent internet access
+KX9-Z7D3R1 CanonCodex: Autonomous agent for research + codex management              |       On: common dependencies
+
+-----
+
+Environment variables                                                                |       Secrets
+                                                                                     |       DISCORD_Client_Secret
+                                                                                     |       OPENAI_API_KEY
+                                                                                     |       SECRET_KEY
+                                                                                     |       GITHUB_TOKEN
+
+----
+
+Created at                                                                           |       Setup script
+July 11, 2025                                                                        |       pip install -r requirements.txt. echo "Setup complete."
+
+----
+ 
+Repository                                                                           |      No. of tasks
+KitarPLV/KX9-Z7D3R1-CanonCodex                                                       |      1
+
+
+
