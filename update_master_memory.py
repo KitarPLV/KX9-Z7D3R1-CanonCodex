@@ -1,6 +1,9 @@
 
 import os
 import datetime
+from utils.logger import log_sync_event
+from utils.tagger import create_git_tag
+from utils.archiver import archive_folder
 
 CANON_ROOT = "."
 MASTER_MEMORY_PATH = "MasterMemory.md"
@@ -76,7 +79,18 @@ This master memory tracks the status and scope of all sub-projects (`pj.xxx01`, 
 
     with open(MASTER_MEMORY_PATH, "w") as f:
         f.write(full_content)
+
     print(f"✅ MasterMemory.md updated with {len(rows)} sub-project(s).")
+
+    # 🔁 Log the sync
+    log_sync_event("success", notes=f"{len(rows)} sub-project(s) scanned.")
+
+    # 🏷️ Tag the sync
+    create_git_tag()
+
+    # 📦 Archive output folders (optional)
+    for proj in SUBPROJECTS:
+        archive_folder(os.path.join(proj, "canoncodex_inbox", "output"))
 
 if __name__ == "__main__":
     update_master_memory()

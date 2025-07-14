@@ -2,7 +2,11 @@
 
 ## 📂 Project: KX9-Z7D3R1-CanonCodex
 **Mode**: Sealed | Multi-Subproject  
+<<<<<<< HEAD
 **Updated**: 2025-07-14 04:35:59
+=======
+**Updated**: 2025-07-14 04:52:47
+>>>>>>> c0e23fb (fix: resolve rebase conflict before dashboard automation)
 
 ---
 
@@ -15,13 +19,21 @@ This master memory tracks the status and scope of all sub-projects (`pj.xxx01`, 
 
 | ID        | Purpose / Notes          | Status     | Last Updated        |
 |-----------|--------------------------|------------|---------------------|
+<<<<<<< HEAD
 | pj.xxx01 | TBD | Initialized | 2025-07-14 04:35:58 |
+=======
+| pj.xxx01 | TBD | Initialized | 2025-07-14 04:20:37 |
+>>>>>>> c0e23fb (fix: resolve rebase conflict before dashboard automation)
 
 ---
 
 ## 🔁 Last Aggregated Sync
 
+<<<<<<< HEAD
 - **Updated**: 2025-07-14 04:35:59
+=======
+- **Updated**: 2025-07-14 04:52:47
+>>>>>>> c0e23fb (fix: resolve rebase conflict before dashboard automation)
 - **Files Read**: pj.xxx*/CoreMemory.md
 - **System Trigger**: update_master_memory.py
 
