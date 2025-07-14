@@ -1,0 +1,13 @@
+
+name: Daily Health Check
+
+on:
+  schedule:
+    - cron: '0 7 * * *'
+
+jobs:
+  healthcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: python telemetry/health_report.py --output canoncodex_inbox/logs/health_summary.md

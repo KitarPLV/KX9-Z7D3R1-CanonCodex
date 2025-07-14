@@ -1,0 +1,15 @@
+
+name: Sync Codex
+
+on:
+  push:
+    paths:
+      - '.canonrc'
+      - 'PJ-*/__codex__/**'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: python core/sync_agent.py

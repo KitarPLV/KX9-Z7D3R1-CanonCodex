@@ -1,0 +1,11 @@
+
+name: Validate Codex
+
+on: pull_request
+
+jobs:
+  validate-codex:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: python core/validate_codex.py --strict
