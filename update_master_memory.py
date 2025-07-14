@@ -15,11 +15,9 @@ def extract_core_info(core_path):
             lines = f.readlines()
             status = "Unknown"
             for line in lines:
-                if "Status" in line and "|" in line:
-                    parts = line.split("|")
-                    if len(parts) > 3:
-                        status = parts[3].strip()
-                        break
+                if "Status" in line and not line.startswith("#"):
+                    status = line.split(":", 1)[1].strip()
+                    break
             last_modified = os.path.getmtime(core_path)
             last_updated = datetime.datetime.fromtimestamp(last_modified).strftime('%Y-%m-%d %H:%M:%S')
             return status, last_updated
@@ -55,7 +53,7 @@ This master memory tracks the status and scope of all sub-projects (`pj.xxx01`, 
 
     body = "\n".join([f"| {proj} | TBD | {status} | {last_updated} |" for proj, _, status, last_updated in rows])
 
-    footer = """
+    footer = f"""
 
 ---
 
@@ -78,7 +76,7 @@ This master memory tracks the status and scope of all sub-projects (`pj.xxx01`, 
 
     with open(MASTER_MEMORY_PATH, "w") as f:
         f.write(full_content)
-    print(f"✅ MasterMemory.md updated with {len(rows)} sub-projects.")
+    print(f"✅ MasterMemory.md updated with {len(rows)} sub-project(s).")
 
 if __name__ == "__main__":
     update_master_memory()
