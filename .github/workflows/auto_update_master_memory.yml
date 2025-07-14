@@ -2,9 +2,12 @@
 name: Auto Update Master Memory
 
 on:
+  push:
+    branches:
+      - main
   schedule:
     - cron: '0 5 * * *'  # Daily at 05:00 UTC
-  workflow_dispatch:     # Allow manual runs
+  workflow_dispatch:
 
 jobs:
   update-master-memory:
