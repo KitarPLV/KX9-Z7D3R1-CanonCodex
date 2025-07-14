@@ -1,0 +1,31 @@
+
+name: Auto Update Master Memory
+
+on:
+  schedule:
+    - cron: '0 5 * * *'  # Daily at 05:00 UTC
+  workflow_dispatch:     # Allow manual runs
+
+jobs:
+  update-master-memory:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Run update_master_memory.py
+        run: python update_master_memory.py
+
+      - name: Commit and Push Changes
+        run: |
+          git config user.name "canonbot"
+          git config user.email "canonbot@users.noreply.github.com"
+          git add MasterMemory.md
+          git commit -m "auto: update MasterMemory snapshot"
+          git push
