@@ -6,7 +6,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: '0 5 * * *'  # Daily at 05:00 UTC
+    - cron: '0 5 * * *'
   workflow_dispatch:
 
 jobs:
@@ -25,10 +25,13 @@ jobs:
       - name: Run update_master_memory.py
         run: python update_master_memory.py
 
+      - name: Generate HTML Dashboard
+        run: python generate_dashboard.py
+
       - name: Commit and Push Changes
         run: |
           git config user.name "canonbot"
           git config user.email "canonbot@users.noreply.github.com"
-          git add MasterMemory.md
-          git commit -m "auto: update MasterMemory snapshot" || echo "No changes to commit"
+          git add MasterMemory.md dashboard.html
+          git commit -m "auto: update MasterMemory and dashboard" || echo "No changes to commit"
           git push
