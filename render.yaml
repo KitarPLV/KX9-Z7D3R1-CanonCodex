@@ -1,4 +1,7 @@
 services:
-  - name: canoncodex
+  - type: web
+    name: canoncodex
     env: python
-    startCommand: uvicorn main:app --host 0.0.0.0 --port 10000
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn autosync_core.router:app --host 0.0.0.0 --port 10000
+    preDeployCommand: python autosync_core/pull_and_sync.py
