@@ -4,8 +4,8 @@ from pathlib import Path
 from datetime import datetime
 from autosync_core.memory_to_file import save_memory_snapshot
 
-# CONFIG: Replace this with your actual Gist raw URL or remote JSON endpoint
-REMOTE_URL = "https://gist.githubusercontent.com/your-username/raw/ai_sync_payload.json"
+# ✅ Remote Gist JSON payload (from your Gist)
+REMOTE_URL = "https://gist.githubusercontent.com/KitarPLV/243ae179beb4b10d21781dc17e5695a3/raw/ai_sync_payload.json"
 INBOX_DIR = "canoncodex_inbox"
 
 def log_sync(filename):
@@ -14,6 +14,7 @@ def log_sync(filename):
 
 def pull_and_sync():
     try:
+        print(f"📡 Pulling from: {REMOTE_URL}")
         res = requests.get(REMOTE_URL)
         res.raise_for_status()
         payload = res.json()
@@ -22,7 +23,7 @@ def pull_and_sync():
         content = payload.get("content")
 
         if not filename or not content:
-            print("Invalid payload structure.")
+            print("❌ Invalid payload structure.")
             return
 
         Path(INBOX_DIR).mkdir(parents=True, exist_ok=True)
@@ -34,6 +35,7 @@ def pull_and_sync():
         save_memory_snapshot({
             "event": "file_pulled",
             "filename": filename,
+            "source": REMOTE_URL,
             "timestamp": datetime.utcnow().isoformat()
         })
 
