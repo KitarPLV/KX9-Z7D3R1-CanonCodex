@@ -1,6 +1,10 @@
-# Delete legacy files/folders from old Codex versions
+# Delete these folders and files from legacy CanonCodex versions:
+
 PJ-XXX01/
 __codex__/
 legacy_ops/
 .github/workflows/render_deploy_old.yml
 canonops_writer_api_legacy.py
+temp/
+keys_dev.json
+obsolete_docs/

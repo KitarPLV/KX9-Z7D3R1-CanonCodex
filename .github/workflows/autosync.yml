@@ -1,8 +1,10 @@
 name: AutoSync
+
 on:
   push:
     paths:
       - 'canoncodex_inbox/**'
+
 jobs:
   sync:
     runs-on: ubuntu-latest

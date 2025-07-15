@@ -1,2 +1,7 @@
 project_id: KX9-Z7D3R1
-modules: [WRITE, FORECAST, LOREBUILD, AUDIT, CORE]
+modules:
+  - WRITE
+  - FORECAST
+  - LOREBUILD
+  - AUDIT
+  - CORE
