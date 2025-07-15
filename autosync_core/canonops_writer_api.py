@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Request, HTTPException, status
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from pathlib import Path
 import os
@@ -7,11 +8,8 @@ from autosync_core.memory_to_file import save_memory_snapshot
 
 router = APIRouter()
 
-# Secret key for simple token auth
 WEBHOOK_SECRET = os.getenv("CANON_WEBHOOK_SECRET", "canon_webhook_secret")
 SAVE_DIR = "canoncodex_inbox"
-
-# Ensure inbox directory exists
 Path(SAVE_DIR).mkdir(parents=True, exist_ok=True)
 
 class FilePayload(BaseModel):
@@ -37,10 +35,7 @@ async def write_file(request: Request, payload: FilePayload):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to write file: {e}")
 
-    # Log sync to queue
     log_sync(filename)
-
-    # Save memory snapshot
     save_memory_snapshot({
         "event": "file_written",
         "filename": filename,
@@ -48,3 +43,22 @@ async def write_file(request: Request, payload: FilePayload):
     })
 
     return {"status": "success", "message": f"File '{filename}' saved."}
+
+@router.get("/status/files")
+def list_synced_files():
+    inbox_files = [f.name for f in Path("canoncodex_inbox").glob("*")]
+    memory_logs = [f.name for f in Path("memory_logs").glob("*")] if Path("memory_logs").exists() else []
+    queue_log = Path("queue_log.txt").read_text().splitlines() if Path("queue_log.txt").exists() else []
+
+    return {
+        "inbox_files": inbox_files,
+        "memory_logs": memory_logs,
+        "queue_log": queue_log
+    }
+
+@router.get("/download/{filename}")
+def download_file(filename: str):
+    filepath = Path("canoncodex_inbox") / filename
+    if not filepath.exists():
+        raise HTTPException(status_code=404, detail="File not found")
+    return FileResponse(str(filepath))
