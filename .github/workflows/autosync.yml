@@ -1,19 +1,21 @@
-name: AutoSync
+name: CanonCodex Autosync
 
 on:
   push:
     paths:
       - 'canoncodex_inbox/**'
+      - 'memory_logs/**'
+      - 'autosync_core/**'
+      - '.github/workflows/**'
 
 jobs:
-  sync:
+  sync-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Auto Commit
+      - uses: actions/checkout@v3
+
+      - name: Trigger Render Deployment
         run: |
-          git config user.name 'CanonCodex'
-          git config user.email 'codex@kx9.com'
-          git add .
-          git commit -m '[autosync] New updates' || echo 'Nothing to commit'
-          git push
+          curl -X POST "$RENDER_DEPLOY_HOOK"
+        env:
+          RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
