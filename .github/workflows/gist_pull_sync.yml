@@ -1,12 +1,13 @@
+name: Gist Pull Sync
+
 on:
   workflow_dispatch:
   schedule:
-    - cron: '*/30 * * * *'  # Every 30 minutes
+    - cron: "*/30 * * * *"  # Every 30 minutes
 
 jobs:
   sync-from-gist:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -14,18 +15,10 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: "3.10"
 
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run pull_and_sync.py
-        run: python autosync_core/pull_and_sync.py
-
-      - name: Commit and push if changes
-        run: |
-          git config user.name "CanonCodex Bot"
-          git config user.email "sync@canoncodex.ai"
-          git add .
-          git diff --cached --quiet || git commit -m "Pulled sync from remote Gist"
-          git push
+      - name: Run pull and sync
+        run: python run_sync.py
