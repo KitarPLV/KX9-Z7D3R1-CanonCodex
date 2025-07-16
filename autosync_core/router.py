@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, HTTPException
+from fastapi import FastAPI, Request
 from autosync_core import canonops_writer_api
 from pathlib import Path
 import json
@@ -13,3 +13,7 @@ def status():
         "memory_logs": [f.name for f in Path("memory_logs").glob("*.json")],
         "queue_log": Path("queue_log.txt").read_text().splitlines()[-10:] if Path("queue_log.txt").exists() else []
     }
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}
