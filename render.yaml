@@ -7,4 +7,4 @@ services:
     plan: free
     envVars:
       - key: GIST_PAYLOAD_URL
-        value: https://gist.githubusercontent.com/KitarPLV/243ae179beb4b10d21781dc17e5695a3/raw/ai_sync_payload.json
+        value: https://gist.githubusercontent.com/your_gist.json

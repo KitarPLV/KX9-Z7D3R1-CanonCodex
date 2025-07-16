@@ -26,3 +26,20 @@ def get_all_states():
 
     with open(LOG_FILE, "r") as f:
         return [json.loads(line) for line in f]
+
+import os
+import json
+from pathlib import Path
+from autosync_core.logger import save_memory_snapshot
+
+def run_workflow_tasks(task_dir="canoncodex_inbox/tasks"):
+    task_path = Path(task_dir)
+    for task_file in task_path.glob("*.json"):
+        with open(task_file, "r", encoding="utf-8") as f:
+            task_data = json.load(f)
+            print(f"[TASK] Executing task: {task_file.name}")
+            print(json.dumps(task_data, indent=2))
+
+        # Simulate result handling and logging
+        save_memory_snapshot(tag=f"task_{task_file.stem}")
+        os.rename(task_file, task_file.with_suffix(".done.json"))
