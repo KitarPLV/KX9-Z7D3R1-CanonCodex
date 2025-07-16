@@ -1,7 +1,9 @@
-import os
-import requests
+from dotenv import load_dotenv
+load_dotenv()
+
+import os, requests
 from datetime import datetime
-from autosync_core.logger import save_memory_snapshot  # ✅ Updated import
+from autosync_core.logger import save_memory_snapshot
 
 def pull_and_sync():
     gist_url = os.getenv("GIST_PAYLOAD_URL")
@@ -17,40 +19,16 @@ def pull_and_sync():
     except ValueError as e:
         raise RuntimeError("Payload is not valid JSON") from e
 
-    # Ensure payload is a list of objects
     if not isinstance(payload, list):
         raise ValueError("Expected payload to be a list of file descriptors")
 
-    synced_files = []
+    os.makedirs("canoncodex_inbox", exist_ok=True)
 
     for item in payload:
         filename = item.get("filename")
         content = item.get("content")
+        if filename and content:
+            with open(os.path.join("canoncodex_inbox", filename), "w", encoding="utf-8") as f:
+                f.write(content)
 
-        if not filename or not content:
-            print(f"Skipping invalid item: {item}")
-            continue
-
-        os.makedirs("canoncodex_inbox/tasks", exist_ok=True)
-        filepath = os.path.join("canoncodex_inbox/tasks", filename)
-
-        with open(filepath, "w", encoding="utf-8") as f:
-            f.write(content)
-
-        print(f"[PULL_SYNC] Synced: {filename}")
-        synced_files.append(filename)
-
-    # Log snapshot with timestamp
-    timestamp = datetime.utcnow().strftime("%Y%m%dT%H%M%SZ")
-    save_memory_snapshot(tag=f"sync_{timestamp}")
-
-    return synced_files
-
-
-# Optional helper for running independently
-if __name__ == "__main__":
-    try:
-        results = pull_and_sync()
-        print(f"\n✅ Synced {len(results)} files:", results)
-    except Exception as e:
-        print(f"\n❌ Sync failed: {e}")
+    save_memory_snapshot(tag="pull")

@@ -1,8 +1,0 @@
-{
-  "project_id": "KX9-Z7D3R1",
-  "modules": ["WRITE", "FORECAST", "LOREBUILD", "AUDIT", "CORE"],
-  "default_sync_source": "gist",
-  "enable_writer_agent": true,
-  "auto_repair": true,
-  "daemon_trigger": true
-}

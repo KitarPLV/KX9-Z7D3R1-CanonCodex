@@ -1,27 +1,19 @@
-name: CanonCodex Sync
+name: CanonCodex Autosync
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "*/30 * * * *"
 
 jobs:
-  sync-and-push:
+  sync:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.10"
+          python-version: "3.11"
       - name: Install dependencies
         run: pip install -r requirements.txt
-      - name: Run Sync
-        run: python run_sync.py
-      - name: Auto Commit & Push
+      - name: Run sync
         run: |
-          git config user.name "CanonBot"
-          git config user.email "canon@codex.bot"
-          git add .
-          git diff --cached --quiet || git commit -m "Auto-sync update"
-          git push
+          python run_sync.py

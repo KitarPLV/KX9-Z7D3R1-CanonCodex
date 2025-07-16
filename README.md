@@ -1,3 +1,3 @@
-# CanonCodex 2.0
+# KX9-Z7D3R1 CanonCodex
 
-This version includes health check ASGI app for Render deployment.
+This is the core repo for syncing CanonCodex AI files via Gist payload.
